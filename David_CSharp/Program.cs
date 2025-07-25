@@ -28,9 +28,6 @@ Console.WriteLine(Length(Append(biggerList, BuildList(10,20))));
 Print(DoubleAll9(Append(biggerList, BuildList(10,20))));
 
 //10
-Print(DoubleAll10(Append(biggerList, BuildList(10,20))));
-
-//11
 Print(DoubleAll(Append(biggerList, BuildList(10,20))));
 
 return;
@@ -120,12 +117,12 @@ int Length<T>(ListOf<T> values) => FoldR(Count, 0, values);
 ListOf<T> DoubleAndCons9<T>(T n, ListOf<T> values) where T : INumber<T> => Cons((n + n), values);
 ListOf<T> DoubleAll9<T>(ListOf<T> values) where T : INumber<T> => FoldR(DoubleAndCons9, Nil<T>(), values);
 
+// ListOf<T> FAndCons<T>(Func<T,T> f, T n, ListOf<T> values) where T : INumber<T> => Cons(f(n), values);
+// ListOf<T> DoubleAll10<T>(ListOf<T> values) where T : INumber<T> => FoldR((l,r) => FAndCons(Double,l,r), Nil<T>(), values);
+// Print(DoubleAll10(Append(biggerList, BuildList(10,20))));
+
 // Exercise 10
 T Double<T>(T n) where T : INumber<T> => n + n;
-ListOf<T> FAndCons<T>(Func<T,T> f, T n, ListOf<T> values) where T : INumber<T> => Cons(f(n), values);
-ListOf<T> DoubleAll10<T>(ListOf<T> values) where T : INumber<T> => FoldR((l,r) => FAndCons(Double,l,r), Nil<T>(), values);
-
-// Exercise 11
 ListOf<TResult> Map<T, TResult>(Func<T, TResult> f, ListOf<T> values) => FoldR((l,r) => Cons(f(l), r), Nil<TResult>(), values);
 ListOf<T> DoubleAll<T>(ListOf<T> values) where T : INumber<T> => Map(Double, values);
 

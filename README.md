@@ -1,5 +1,20 @@
-## Rules
-No Loops allowed
+# Why Functional Programming Matters
+By John Hughes
+
+
+https://www.cs.kent.ac.uk/people/staff/dat/miranda/whyfp90.pdf
+
+
+## Tonight
+
+We will be implementing the code from section 3 - 'Gluing Functions Together'
+
+You can either read the section of the paper yourself,  or follow my exercises below. (Or a combination)
+
+No Loops allowed!
+
+
+
 
 
 ## Exercise 1 - Creating the ListOf object
@@ -25,7 +40,7 @@ Hints:
 
 A 'Nil' list can be represented in multiple ways.  The simpliest (but maybe not the cleanest) is to add a `IsNil` property on the `listOf` object.  
 
-Ideally, the `listOf` object should be a generic container.  Ie. a `ListOf<T>`.  However it is possible to complete all these exercises if your object can only contain integers.
+Ideally, the `listOf` object should be a generic container.  Ie. a `ListOf<T>`.  However it is possible to complete most of these exercises if your object can only contain integers.
 
 
 ## Exercise 2 - Querying the ListOf object
@@ -127,3 +142,83 @@ sum(myList) => return foldr( Add, 0, myList )
 ```
 
 
+## Exercise 5 - Simple List Construction
+
+As building a list with nested `Cons` is a bit of a pain.  Create a helper function which builds the list from a simple array.
+
+For example
+
+```
+    // var myList = Cons(13, Cons(27, Cons(3, Nil())))
+    var myList = BuildList([13, 27, 3])
+```
+
+You should be able to do this without changing your existing `ListOf` object (or using any loops!)
+
+
+## Exercise 6 - Bool Logic
+
+Using your `foldr` create the following two functions:
+
+1. `AnyTrue` - returns `true` if at least one value in a list of booleans is true.
+2. `AllTrue` - returns `true` if all values in a list of booleans are true.
+
+
+For example
+```
+AnyTrue( BuildList(true, false) ) // true
+AllTrue( BuildList(true, false) ) // false
+```
+
+
+## Exercise 7 - Copy and Append
+
+One way to understand `(foldr f a)` is as a function that replaces all occurrences of `Cons` in a list by `f`, and all occurrences of `Nil` by `a`. 
+
+Taking the list `[1,2,3]` as an example, since this means `Cons 1 (Cons 2 (Cons 3 Nil ))` 
+then `(foldr (+) 0)` converts it into `(+) 1 ((+) 2 ((+) 3 0)) = 6` 
+
+Still using `foldr` can you now write a function which copies a list?
+
+And then can you modify your copy function to create one which appends 2 lists together.
+
+```
+append([1,2], [3.4]) // [1,2,3,4]
+```
+
+
+## Exercise 8 - Length
+
+Using `foldr` create a function called `length` which counts the number of entries in a list.
+
+
+```
+length([10,50]) // 2
+```
+
+## Exercise 9 - Double-All
+
+Using `foldr` create a function called `DoubleAll` which doubles the values of the entries in a list.
+
+For example
+
+```
+DoubleAll([1,2,3]) // [2,4,6]
+```
+
+Hints
+
+* First create a function called `Double(n: number) => number`
+* As you cannot modify a list you will need to 'construct' a new one where each value is doubled.
+
+
+
+## Exercise 10 - Map
+
+Now copy your `DoubleAll` function and rename it to `Map`.  Replace the call to `Double` with a function which Map will need to accept as it's first argument.
+
+You should now be able to redefine `DoubleAll` as
+
+```
+DoubleAll(list) => Map(Double, list)
+```
