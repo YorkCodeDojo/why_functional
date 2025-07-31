@@ -30,6 +30,15 @@ Print(DoubleAll9(Append(biggerList, BuildList(10,20))));
 //10
 Print(DoubleAll(Append(biggerList, BuildList(10,20))));
 
+//11
+var myTree = Node(1, BuildList<TreeOf<int>>([
+    Node(2, Nil<TreeOf<int>>()),
+    Node(3, BuildList(Node(5, Nil<TreeOf<int>>())))
+]));
+
+Console.WriteLine(SumTree(myTree));
+Console.WriteLine(ProductTree(myTree));
+
 return;
 
 ListOf<T> Cons<T>(T element, ListOf<T> rest)
@@ -126,6 +135,37 @@ T Double<T>(T n) where T : INumber<T> => n + n;
 ListOf<TResult> Map<T, TResult>(Func<T, TResult> f, ListOf<T> values) => FoldR((l,r) => Cons(f(l), r), Nil<TResult>(), values);
 ListOf<T> DoubleAll<T>(ListOf<T> values) where T : INumber<T> => Map(Double, values);
 
+
+// Exercise 11
+TreeOf<T> Node<T>(T label, ListOf<TreeOf<T>> subtrees)
+{
+    return new TreeOf<T>(label, subtrees);
+}
+
+// Exercise 12
+// f is Node
+// g is Cons
+// initialValues is Nil
+TF FoldTreeInner<T,TF>(Func<T,TF,TF> f, 
+              Func<TF,TF,TF> g, 
+              TF a, 
+              ListOf<TreeOf<T>> values)
+{
+    // Combines the subtree
+    if (values.IsNil) return a;
+    return g(FoldTree(f, g, a, values.Head), FoldTreeInner(f, g, a, values.Tail));
+}
+
+TF FoldTree<T,TF>(Func<T,TF,TF> f, Func<TF,TF,TF> g, TF a, TreeOf<T> values)
+{
+    return f(values.Label, FoldTreeInner(f, g, a, values.Subtrees));
+}
+
+int SumTree(TreeOf<int> values) => FoldTree(Add, Add, 0, values);
+int ProductTree(TreeOf<int> values) => FoldTree(Multiply, Multiply, 1, values);
+
+int Labels(TreeOf<int> values) => FoldTree((a,b) => Cons(a,b), Append, Nil<ListOf<int>>(), values);
+
 class ListOf<T>
 {
     private readonly T? _element;
@@ -147,4 +187,18 @@ class ListOf<T>
 
     public T Head => _element!;
     public ListOf<T> Tail => _rest!;
+}
+
+
+
+class TreeOf<T>
+{
+    public T Label { get; }
+    public ListOf<TreeOf<T>> Subtrees { get; }
+
+    public TreeOf(T label, ListOf<TreeOf<T>> subtrees)
+    {
+        Label = label;
+        Subtrees = subtrees;
+    }
 }
