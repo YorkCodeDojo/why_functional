@@ -7,13 +7,13 @@ let cons element list: ListOf<'T> = ListValues ( element, list )
 let nil<'T>: ListOf<'T> = Nil
 
 
-let rec listToString (values: ListOf<'T>): string =
-    listToString' values ""
-and listToString' (values: ListOf<'T>) (acc: string): string =
+let rec listToString values =
+    listToString' values "["
+and listToString' values acc =
     match values with
     | Nil -> acc
-    | ListValues (head,Nil) -> acc + head.ToString()
-    | ListValues (head,rest) -> listToString' rest (acc + head.ToString() + ", ")
+    | ListValues (head,Nil) -> $"{acc}{head}]"
+    | ListValues (head,rest) -> listToString' rest $"{acc}{head}, "
 
 // Exercise 3
 let myList = cons 1 (cons 2 (cons 4 nil))
