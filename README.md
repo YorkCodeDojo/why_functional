@@ -17,33 +17,59 @@ No Loops allowed!
 
 
 
-## Exercise 1 - Creating the ListOf object
+## Exercise 1 - Modelling a ListOf *
 
 A `listOf` can be empty,  this is called Nil.
 
-A `listOf` can also be constructed using the `Cons` function.  This takes two arguments,  an element and another listOf object.
+or
+
+A `liostOf *` can contain an Element and another `listOf *` 
+
+
+The list should only contain elements of a single type.  ie.  A listOf shouldn't contain both strings and integers.
+
 
 
 ### Tasks
-1. Write a function Nil() which returns an empty list.
-2. Write a function Cons(x, y) which returns a populated list.
 
-For example,
+1. Decide how you want to model your listof data structure.  This will vary depending on the language you are using.  For example in C# I used a Class but in TypeScript (and F#) I defined a type.
 
-This builds the list containing 1,2 and 3
+
+2. Write a function Nil() which returns an empty list.
 
 ```
-var myList = Cons(1, Cons(2, Cons(3, Nil())))
+myEmptyList = nil()
 ```
+
+
+3. A `listOf` can also be constructed using the `Cons` function.  This takes two arguments,  an element and another listOf object.
+
+
+Some examples
+
+|      |                             |       |
+|----------------|--------------------------------|---------|
+| Empty List     | Nil                            | []      |
+| Single Element | Cons(1, Nil)                   | [1]     |
+| Three Elements | Cons(1, Cons(2, Cons(3, Nil))) | [1,2,3] |
+
+Write a function Cons(x, y) which returns a populated list.
+
 
 Hints:
 
-A 'Nil' list can be represented in multiple ways.  The simpliest (but maybe not the cleanest) is to add a `IsNil` property on the `listOf` object.  
-
+For those using classes....
 Ideally, the `listOf` object should be a generic container.  Ie. a `ListOf<T>`.  However it is possible to complete most of these exercises if your object can only contain integers.
 
 
 ## Exercise 2 - Querying the ListOf object
+
+With this data structure there should be no way to directly access the nth element of the list.
+
+
+
+If you have defined your ListOf datastructure using a class then....
+
 
 Now we have our list we need to able to query values from it.  There are __only__ three available methods.
 
@@ -59,6 +85,12 @@ print(myList.IsNil)  // False
 print(myList.Head()) // 13
 print(myList.Tail().Head()) // 27
 ```
+
+
+If you have defined your ListOf datastructure using a types then I expect these methods aren't required.
+
+
+
 
 
 ## Exercise 3 - Summing the list
@@ -222,3 +254,8 @@ You should now be able to redefine `DoubleAll` as
 ```
 DoubleAll(list) => Map(Double, list)
 ```
+
+
+
+## Exercise 11 - Tree
+If you get this far! - Then refer to the paper to see how you can construct and query a tree using this ListOf datastructure.
