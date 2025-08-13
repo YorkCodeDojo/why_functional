@@ -76,12 +76,20 @@ let tail<'T>(list: ListOf<'T>): ListOf<'T> =
 //   | Cons( head:'T , _) -> Some(head)
 //   | _ -> None
 
+let sum(list: ListOf<int>): int = 
+  let rec sumList(list: ListOf<int>, total: int): int = 
+    match head(list) with
+    | Some(x) -> sumList(tail(list), total + x)
+    | None -> total
+
+  sumList(list, 0)
 
 printfn "isNil for empty list is %O" (isNil(x))
 printfn "isNil for non empty list is %O" (isNil(y))
 
 printfn "head for a list with stuff in %O" (head(y))
 
-
 printfn "tail for a list with stuff in %O" (tail(z))
 printfn "tail for a list which is empty %O" (tail(x))
+
+printfn "Sum a list = %O" (sum(z))
