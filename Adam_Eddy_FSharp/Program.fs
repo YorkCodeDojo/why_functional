@@ -84,7 +84,7 @@ let sum(list: ListOf<int>): int =
 
   sumList(list, 0)
 
-let rec fold(list: ListOf<int>)(acc: int)(folder: (int*int)->int ): int =
+let rec fold<'L, 'A>(list: ListOf<'L>)(acc: 'A)(folder: ('A*'L)->'A ): 'A =
   match head(list) with
   | Some(x) -> fold(tail(list))(folder(acc , x))(folder)
   | None -> acc
@@ -101,3 +101,5 @@ printfn "tail for a list which is empty %O" (tail(x))
 printfn "Sum a list = %O" (sum(z))
 
 printfn "Fold  a list = %O" (fold(z)(0)(fun (a,b) -> a + b))
+
+printfn "Fold  a list into a string = %O" (fold(z)("")(fun (a,b) -> sprintf "%s%d" a  b))
