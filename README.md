@@ -23,7 +23,7 @@ A `listOf` can be empty,  this is called Nil.
 
 or
 
-A `liostOf *` can contain an Element and another `listOf *` 
+A `liistOf *` can contain an Element and another `listOf *` 
 
 
 The list should only contain elements of a single type.  ie.  A listOf shouldn't contain both strings and integers.
@@ -42,7 +42,7 @@ myEmptyList = nil()
 ```
 
 
-3. A `listOf` can also be constructed using the `Cons` function.  This takes two arguments,  an element and another listOf object.
+3. A `listOf` is constructed using the `Cons` function.  This takes two arguments,  an element and another listOf object.
 
 
 Some examples
@@ -53,7 +53,7 @@ Some examples
 | Single Element | Cons(1, Nil)                   | [1]     |
 | Three Elements | Cons(1, Cons(2, Cons(3, Nil))) | [1,2,3] |
 
-Write a function Cons(x, y) which returns a populated list.
+Write a TWO argument function `Cons(x, y)` which returns a populated list.
 
 
 Hints:
@@ -66,7 +66,7 @@ Ideally, the `listOf` object should be a generic container.  Ie. a `ListOf<T>`. 
 
 With this data structure there should be no way to directly access the nth element of the list.
 
-
+### Class
 
 If you have defined your ListOf datastructure using a class then....
 
@@ -86,6 +86,7 @@ print(myList.Head()) // 13
 print(myList.Tail().Head()) // 27
 ```
 
+### Types
 
 If you have defined your ListOf datastructure using a types then I expect these methods aren't required.
 
