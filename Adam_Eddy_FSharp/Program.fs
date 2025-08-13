@@ -3,8 +3,8 @@ printfn "Hello from F#"
 
 // let x = ()
 // 
-let a:  Option<string> = Some("HellO)")
-let b: Option<string> = None
+// let a:  Option<string> = Some("HellO)")
+// let b: Option<string> = None
 // 
 
 // Option<String> a = Some("Hello")
@@ -37,18 +37,51 @@ let b: Option<string> = None
 // | WithACard of Gift * message:string
 // 
 
-
-
 // type A = | Item of head:int * A | Empty
-type A<'T> = | Item of head:'T * A<'T> | Empty
-
+type ListOf<'T> = | Cons of head:'T * ListOf<'T> | Empty
 
 let x =  Empty // An empty list 
-let y =  Item(8, Empty) // Single item in list
-let z =  Item(1, Item(2, Empty)) // Two item in list
+let y =  Cons(1, Empty) // Single item in list
+let z =  Cons(1, Cons(2, Empty)) // Two item in list
 
 printfn "x=%O" x
 
 printfn "y=%O" y
 printfn "z=%O" z
 
+let nil() = Empty
+let createTwoItemList a b = Cons(a, Cons(b, Empty))
+
+let a = createTwoItemList 1 2
+printfn "a=%O" a
+
+let isNil<'T>(list: ListOf<'T>): bool= 
+  match list with
+  | Empty -> true
+  | _ -> false
+
+let head<'T>(list: ListOf<'T>): Option<'T> = 
+  match list with
+  | Cons( head:'T , _) -> Some(head)
+  | _ -> None
+
+let tail<'T>(list: ListOf<'T>): ListOf<'T> = 
+  match list with
+  | Cons( head:'T , tail) -> tail
+  | Empty -> Empty
+
+//Cons of head:'T * ListOf<'T>
+// let head2<'T>(list: Cons) : 'T = 
+//   match list with
+//   | Cons( head:'T , _) -> Some(head)
+//   | _ -> None
+
+
+printfn "isNil for empty list is %O" (isNil(x))
+printfn "isNil for non empty list is %O" (isNil(y))
+
+printfn "head for a list with stuff in %O" (head(y))
+
+
+printfn "tail for a list with stuff in %O" (tail(z))
+printfn "tail for a list which is empty %O" (tail(x))
