@@ -112,7 +112,7 @@ Start with the case where the list is empty.
 
 ## Exercise 4 - Multipling the list
 
-Using your knowledge gained from writting the `sum` method,  write a new method which multiples all the values.
+Using your knowledge gained from writting the `sum` method,  write a new method which multiplies all the values.
 
 ```
 var myList = Cons(2, Cons(2, Cons(3, Nil())))
@@ -141,7 +141,7 @@ For example
 
 ```
 print( foldr( (+), 0, myList )  ) // Sums all the values in my List
-print( foldr( (*), 1, myList )  ) // Multiples all the values in my List
+print( foldr( (*), 1, myList )  ) // Multiplies all the values in my List
 ```
 
 The first argument to foldR expects a 'binary' function.  A binary function performs an operation on two arguments to produce a third.
