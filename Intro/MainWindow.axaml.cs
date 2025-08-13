@@ -8,12 +8,13 @@ public partial class MainWindow : Window
 {
     private readonly ISlide[] _slides =
     [
-        //http://avalonedit.net/documentation/
-        new CodeSlide(["Higher Order Functions"]),
         new ImageSlide("Images/logo.jpg", 1200),
         new ListSlide(["Networking and Food", "Explain Problem", "Work In Pairs", "Present", "Pub"]),
         new ImageSlide("Images/ethos.jpg"),
-        new UrlSlide("https://github.com/YorkCodeDojo/why_functional", 80),
+        new TextSlide("What is functional programming?", 30),
+        new ListSlide(["Higher Order Functions", "Partial Application", "Composition"]),
+        new ListSlide(["Nil", "ListOf 'RED' + Nil", "ListOf 'RED' + (ListOf 'GREEN' + Nil)", "ListOf 'RED' + (ListOf 'GREEN' + (ListOf 'BLUE' + Nil))"]),
+        new UrlSlide("https://github.com/YorkCodeDojo/why_functional", 50),
     ];
 
     private int _slideNumber = 0;
