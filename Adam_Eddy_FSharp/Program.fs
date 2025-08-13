@@ -84,6 +84,12 @@ let sum(list: ListOf<int>): int =
 
   sumList(list, 0)
 
+let rec fold(list: ListOf<int>)(acc: int)(folder: (int*int)->int ): int =
+  match head(list) with
+  | Some(x) -> fold(tail(list))(folder(acc , x))(folder)
+  | None -> acc
+
+
 printfn "isNil for empty list is %O" (isNil(x))
 printfn "isNil for non empty list is %O" (isNil(y))
 
@@ -93,3 +99,5 @@ printfn "tail for a list with stuff in %O" (tail(z))
 printfn "tail for a list which is empty %O" (tail(x))
 
 printfn "Sum a list = %O" (sum(z))
+
+printfn "Fold  a list = %O" (fold(z)(0)(fun (a,b) -> a + b))
