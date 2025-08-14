@@ -17,6 +17,22 @@ public class PF
         }
         return result;
     }
+
+
+    int Add(int x, int y) => x + y;
+
+    // int Add3(int y) => Partial(Add, 3);
+    //
+    //
+    // let add x y = x + y
+    //     
+    // let add3 x = add x
+    //  
+    // add3 10
+        
+        
+        
+    
     
     public void Example()
     {

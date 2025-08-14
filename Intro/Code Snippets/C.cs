@@ -10,5 +10,6 @@ public class C
     
     public void Example()
     {
+        var a = AddAndDouble(3);
     }
 }

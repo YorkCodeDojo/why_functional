@@ -1,8 +1,8 @@
 ﻿type ListOf<'T> =
     | Nil
-    | ListValues of head:'T * body:ListOf<'T>
+    | Cons of head:'T * body:ListOf<'T>
 
-let cons element list: ListOf<'T> = ListValues ( element, list )
+let cons element list: ListOf<'T> = Cons ( element, list )
 
 let nil<'T>: ListOf<'T> = Nil
 
@@ -12,8 +12,8 @@ let rec listToString values =
 and listToString' values acc =
     match values with
     | Nil -> acc
-    | ListValues (head,Nil) -> $"{acc}{head}]"
-    | ListValues (head,rest) -> listToString' rest $"{acc}{head}, "
+    | Cons (head,Nil) -> $"{acc}{head}]"
+    | Cons (head,rest) -> listToString' rest $"{acc}{head}, "
 
 // Exercise 3
 let myList = cons 1 (cons 2 (cons 4 nil))
@@ -21,14 +21,14 @@ let myList = cons 1 (cons 2 (cons 4 nil))
 let rec sumList (values: ListOf<int>): int =
     match values with
     | Nil -> 0
-    | ListValues (head,rest) -> head + sumList(rest)
+    | Cons (head,rest) -> head + sumList(rest)
 
 printfn $"%d{sumList(myList)}"
 
 let rec multiplyList (values: ListOf<int>): int =
     match values with
     | Nil -> 1
-    | ListValues (head,rest) -> head * multiplyList(rest)
+    | Cons (head,rest) -> head * multiplyList(rest)
     
 printfn $"%d{multiplyList(myList)}"
     
@@ -36,7 +36,7 @@ printfn $"%d{multiplyList(myList)}"
 let rec foldr<'T, 'TResult> (acc: 'TResult) (f: 'T -> 'TResult -> 'TResult) (values: ListOf<'T>): 'TResult =
     match values with
     | Nil -> acc
-    | ListValues (head,rest) -> f head (foldr acc f rest)
+    | Cons (head,rest) -> f head (foldr acc f rest)
     
 let sum = foldr 0 (+)
 printfn $"%d{sum(myList)}"
@@ -115,7 +115,7 @@ let rec foldTree f g a (root: TreeOf<'T>) =
 and foldTree' f g a (subTrees: ListOf<TreeOf<'T>>) = 
     match subTrees with
     | Nil -> a
-    | ListValues (subTree, rest) -> g (foldTree f g a subTree) (foldTree' f g a rest)
+    | Cons (subTree, rest) -> g (foldTree f g a subTree) (foldTree' f g a rest)
     
     
 let sumTree = foldTree (+) (+) 0
