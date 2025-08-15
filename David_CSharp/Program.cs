@@ -6,14 +6,14 @@ var myListOfInts = Cons(2, Cons(2, Cons(3, Nil<int>())));
 
 Print(myListOfDoubles);
 Console.WriteLine(Sum(myListOfDoubles));
-Console.WriteLine(Sum2(myListOfDoubles));
+Console.WriteLine(Sum2<double,double>(myListOfDoubles));
 
 Console.WriteLine(Product(myListOfInts));
 Console.WriteLine(Product2(myListOfInts));
 
 var biggerList = BuildList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 Print(biggerList);
-Console.WriteLine(Sum2(biggerList));
+Console.WriteLine(Sum2<int,int>(biggerList));
 
 Console.WriteLine(AnyTrue(BuildList(true, false))); // true
 Console.WriteLine(AllTrue(BuildList(true, false))); // false
@@ -90,11 +90,18 @@ TResult FoldR<T, TResult>(Func<T,TResult,TResult> f, TResult initialValue, ListO
         return f(values.Head, FoldR(f, initialValue, values.Tail));
 }
 
-T Add<T>(T lhs, T rhs) where T : INumber<T> => lhs + rhs;
-T Multiply<T>(T lhs, T rhs) where T : INumber<T> => lhs * rhs;
+TResult Add<T,TResult>(T lhs, TResult rhs) 
+    where TResult : notnull 
+    where T : IAdditionOperators<T,TResult,TResult> => lhs + rhs;
 
-T Sum2<T>(ListOf<T> values) where T : INumber<T> => FoldR(Add, T.AdditiveIdentity, values);
-T Product2<T>(ListOf<T> values) where T : INumber<T> => FoldR(Multiply, T.MultiplicativeIdentity, values);
+TResult Sum2<T,TResult>(ListOf<T> values) 
+    where T : IAdditiveIdentity<T,TResult>, IAdditionOperators<T,TResult,TResult> => 
+                                                                FoldR(Add, T.AdditiveIdentity, values);
+
+
+T Multiply<T>(T lhs, T rhs) where T : IMultiplyOperators<T,T,T> => lhs * rhs;
+T Product2<T>(ListOf<T> values) where T : IMultiplicativeIdentity<T,T>, IMultiplyOperators<T,T,T> => 
+                                                                FoldR(Multiply, T.MultiplicativeIdentity, values);
 
 
 // Exercise 5
@@ -164,7 +171,7 @@ TF FoldTree<T,TF>(Func<T,TF,TF> f, Func<TF,TF,TF> g, TF a, TreeOf<T> values)
 int SumTree(TreeOf<int> values) => FoldTree(Add, Add, 0, values);
 int ProductTree(TreeOf<int> values) => FoldTree(Multiply, Multiply, 1, values);
 
-int Labels(TreeOf<int> values) => FoldTree((a,b) => Cons(a,b), Append, Nil<ListOf<int>>(), values);
+// int Labels(TreeOf<int> values) => FoldTree((a,b) => Cons(a,b), Append, Nil<ListOf<int>>(), values);
 
 class ListOf<T>
 {
