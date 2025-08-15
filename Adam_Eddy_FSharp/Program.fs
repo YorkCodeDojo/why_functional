@@ -1,0 +1,58 @@
+﻿type ListOf<'T> = | Cons of head:'T * ListOf<'T> | Empty
+
+let x =  Empty // An empty list 
+let y =  Cons(1, Empty) // Single item in list
+let z =  Cons(1, Cons(2, Empty)) // Two item in list
+
+printfn "x=%O" x
+printfn "y=%O" y
+printfn "z=%O" z
+
+let nil() = Empty
+let createTwoItemList a b = Cons(a, Cons(b, Empty))
+
+let a = createTwoItemList 1 2
+printfn "a=%O" a
+
+let isNil<'T>(list: ListOf<'T>): bool= 
+  match list with
+  | Empty -> true
+  | _ -> false
+
+let head<'T>(list: ListOf<'T>): Option<'T> = 
+  match list with
+  | Cons( head:'T , _) -> Some(head)
+  | _ -> None
+
+let tail<'T>(list: ListOf<'T>): ListOf<'T> = 
+  match list with
+  | Cons( head:'T , tail) -> tail
+  | Empty -> Empty
+
+let sum(list: ListOf<int>): int = 
+  let rec sumList(list: ListOf<int>, total: int): int = 
+    match head(list) with
+    | Some(x) -> sumList(tail(list), total + x)
+    | None -> total
+
+  sumList(list, 0)
+
+let rec fold<'L, 'A>(list: ListOf<'L>)(acc: 'A)(folder: ('A*'L)->'A ): 'A =
+  match head(list) with
+  | Some(x) -> fold(tail(list))(folder(acc , x))(folder)
+  | None -> acc
+
+
+printfn "isNil for empty list is %O" (isNil(x))
+printfn "isNil for non empty list is %O" (isNil(y))
+
+printfn "head for a list with stuff in %O" (head(y))
+
+printfn "tail for a list with stuff in %O" (tail(z))
+printfn "tail for a list which is empty %O" (tail(x))
+
+printfn "Sum a list = %O" (sum(z))
+
+printfn "Fold  a list = %O" (fold(z)(0)(fun (a,b) -> a + b))
+
+printfn "Fold  a list into a string = %O" (fold(z)("")(fun (a,b) -> sprintf "%s%d" a  b))
