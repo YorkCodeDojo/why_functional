@@ -1,0 +1,8 @@
+#Ignore any test result output from unit testing
+/[T][t]est[R][r]esults/
+
+# Ignore .idea folder
+/.idea/
+
+# Ignore any personal settings
+*.[D][d]ot[S][s]ettings.*
