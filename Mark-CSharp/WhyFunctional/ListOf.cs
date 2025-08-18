@@ -46,7 +46,7 @@ public class ListOf<T>
 	/// <summary>
 	/// Default ctor - creates an object equivalent to <see cref="Nil"/>
 	/// </summary>
-	public ListOf()
+	private ListOf()
 	{
 		IsNil = true;
 	}
@@ -56,7 +56,7 @@ public class ListOf<T>
 	/// </summary>
 	/// <param name="value">The first value</param>
 	/// <param name="others">The other values</param>
-	public ListOf(T value, ListOf<T> others)
+	private ListOf(T value, ListOf<T> others)
 	{
 		ArgumentNullException.ThrowIfNull(value, nameof(value));
 		ArgumentNullException.ThrowIfNull(others, nameof(others));
