@@ -39,6 +39,16 @@ public class ListOf<T>
 		}
 	}
 
+	/// <summary>
+	/// Returns the value at the "head" of the <see cref="ListOf{T}"/>
+	/// </summary>
+	public T Head => _value;
+
+	/// <summary>
+	/// Returns the value of the other items in the <see cref="ListOf{T}"/>
+	/// </summary>
+	public ListOf<T> Tail => _others;
+
 	#endregion
 
 	#region Constructors
