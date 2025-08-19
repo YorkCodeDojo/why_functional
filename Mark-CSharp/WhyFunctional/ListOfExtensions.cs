@@ -62,6 +62,15 @@ public static class ListOfExtensions
 		return a * b;
 	}
 
+	/// <summary>
+	/// Provides a Fold-Right function to perform the required operation (<paramref name="fn"/>) on the <paramref name="list"/>, starting with the initial value <paramref name="initial"/>
+	/// </summary>
+	/// <param name="list">The <see cref="ListOf{T}"/> to be manipulated</param>
+	/// <param name="fn">The function manipulating the <paramref name="list"/></param>
+	/// <param name="initial">The initial value for the function</param>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="TResult"></typeparam>
+	/// <returns>The result of applying <paramref name="fn"/> over the <paramref name="list"/></returns>
 	public static TResult FoldR<T, TResult>(this ListOf<T> list, Func<T, TResult, TResult> fn, TResult initial)
 		where T : notnull, INumber<T>
 		where TResult : notnull
@@ -69,5 +78,19 @@ public static class ListOfExtensions
 		return list.IsNil
 			? initial
 			: fn(list.Head, list.Tail.FoldR(fn, initial));
+	}
+
+	/// <summary>
+	/// Helper method to create a <see cref="ListOf{T}"/> from an array of values
+	/// </summary>
+	/// <param name="values">The values to be added to the output</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>A <see cref="List{T}"/> object, containing all values in <paramref name="values"/></returns>
+	public static ListOf<T> BuildList<T>(this T[] values)
+		where T : notnull, INumber<T>
+	{
+		return values.Length > 0
+			? ListOf<T>.Cons(values[0], BuildList<T>(values[1..]))
+			: ListOf<T>.Nil();
 	}
 }
