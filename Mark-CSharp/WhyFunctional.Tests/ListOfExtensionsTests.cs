@@ -19,7 +19,7 @@ public class ListOfExtensionsTests
 			expected += value;
 		}
 
-		var result = sut.Sum();
+		var result = sut.Sum<int,int>();
 		result.Should().Be(expected);
 	}
 	
@@ -37,7 +37,7 @@ public class ListOfExtensionsTests
 			expected *= value;
 		}
 
-		var result = sut.Product();
+		var result = sut.Product<int, int>();
 		result.Should().Be(expected);
 	}
 }

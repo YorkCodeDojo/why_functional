@@ -100,4 +100,11 @@ public class ListOf<T>
 	}
 
 	#endregion
+
+	public override string ToString()
+	{
+		return IsNil
+			? "Nil"
+			: $"[{Head}, {Tail}]";
+	}
 }
