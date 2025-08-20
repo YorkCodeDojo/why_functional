@@ -3,7 +3,7 @@ using System.Numerics;
 namespace WhyFunctional;
 
 public class ListOf<T>
-	where T : INumber<T>
+	where T : notnull
 {
 	#region Fields
 

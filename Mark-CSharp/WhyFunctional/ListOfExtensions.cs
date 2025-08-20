@@ -12,10 +12,10 @@ public static class ListOfExtensions
 	/// <typeparam name="TResult"></typeparam>
 	/// <returns>The summation result of values held in <paramref name="list"/></returns>
 	public static TResult Sum<T, TResult>(this ListOf<T> list)
-		where T : notnull, INumber<T>, IAdditiveIdentity<T, TResult>, IAdditionOperators<T, TResult, TResult>
-		where TResult : notnull, INumber<TResult>
+		where T : INumber<T>, IAdditiveIdentity<T, TResult>, IAdditionOperators<T, TResult, TResult>
+		where TResult : INumber<TResult>
 	{
-		return list.FoldR<T, TResult>(Add<T, TResult>, TResult.Zero);
+		return list.FoldR(Add, TResult.Zero);
 	}
 
 	/// <summary>
@@ -26,10 +26,10 @@ public static class ListOfExtensions
 	/// <typeparam name="TResult"></typeparam>
 	/// <returns>The product of values held in <paramref name="list"/></returns>
 	public static TResult Product<T, TResult>(this ListOf<T> list)
-		where T : notnull, INumber<T>, IMultiplicativeIdentity<T, TResult>, IMultiplyOperators<T, TResult, TResult>
-		where TResult : notnull, INumber<TResult>
+		where T : INumber<T>, IMultiplicativeIdentity<T, TResult>, IMultiplyOperators<T, TResult, TResult>
+		where TResult : INumber<TResult>
 	{
-		return list.FoldR(Mul<T, TResult>, TResult.One);
+		return list.FoldR(Mul, TResult.One);
 	}
 
 	/// <summary>
@@ -41,8 +41,8 @@ public static class ListOfExtensions
 	/// <typeparam name="TResult"></typeparam>
 	/// <returns>The summation of <paramref name="a"/> and <paramref name="b"/></returns>
 	private static TResult Add<T, TResult>(T a, TResult b)
-		where T : notnull, INumber<T>, IAdditiveIdentity<T, TResult>, IAdditionOperators<T, TResult, TResult>
-		where TResult : notnull, INumber<TResult>
+		where T : INumber<T>, IAdditiveIdentity<T, TResult>, IAdditionOperators<T, TResult, TResult>
+		where TResult : INumber<TResult>
 	{
 		return a + b;
 	}
@@ -56,8 +56,8 @@ public static class ListOfExtensions
 	/// <typeparam name="TResult"></typeparam>
 	/// <returns>The product of <paramref name="a"/> and <paramref name="b"/></returns>
 	private static TResult Mul<T, TResult>(T a, TResult b)
-		where T : notnull, INumber<T>, IMultiplicativeIdentity<T, TResult>, IMultiplyOperators<T, TResult, TResult>
-		where TResult : notnull, INumber<TResult>
+		where T : INumber<T>, IMultiplicativeIdentity<T, TResult>, IMultiplyOperators<T, TResult, TResult>
+		where TResult : INumber<TResult>
 	{
 		return a * b;
 	}
@@ -71,8 +71,8 @@ public static class ListOfExtensions
 	/// <typeparam name="T"></typeparam>
 	/// <typeparam name="TResult"></typeparam>
 	/// <returns>The result of applying <paramref name="fn"/> over the <paramref name="list"/></returns>
-	public static TResult FoldR<T, TResult>(this ListOf<T> list, Func<T, TResult, TResult> fn, TResult initial)
-		where T : notnull, INumber<T>
+	private static TResult FoldR<T, TResult>(this ListOf<T> list, Func<T, TResult, TResult> fn, TResult initial)
+		where T : notnull
 		where TResult : notnull
 	{
 		return list.IsNil
@@ -87,10 +87,40 @@ public static class ListOfExtensions
 	/// <typeparam name="T"></typeparam>
 	/// <returns>A <see cref="List{T}"/> object, containing all values in <paramref name="values"/></returns>
 	public static ListOf<T> BuildList<T>(this T[] values)
-		where T : notnull, INumber<T>
+		where T : notnull
 	{
 		return values.Length > 0
-			? ListOf<T>.Cons(values[0], BuildList<T>(values[1..]))
+			? ListOf<T>.Cons(values[0], BuildList(values[1..]))
 			: ListOf<T>.Nil();
 	}
+
+	/// <summary>
+	/// Provides a logical OR operation for two values
+	/// </summary>
+	/// <param name="a">The first value</param>
+	/// <param name="b">The second value</param>
+	/// <returns>The logical OR product</returns>
+	private static bool LogicalOr(bool a, bool b) => a || b;
+	
+	/// <summary>
+	/// Provides a logical AND operation for two values
+	/// </summary>
+	/// <param name="a">The first value</param>
+	/// <param name="b">The second value</param>
+	/// <returns>The logical AND product</returns>
+	private static bool LogicalAnd(bool a, bool b) => a && b;
+
+	/// <summary>
+	/// Determines whether any of the <paramref name="values"/> are true
+	/// </summary>
+	/// <param name="values">A <see cref="ListOf{T}"/> object with boolean values</param>
+	/// <returns>True if any values are true, otherwise false</returns>
+	public static bool AnyTrue(ListOf<bool> values) => values.FoldR(LogicalOr, false);
+
+	/// <summary>
+	/// Determines whether ALL of the <paramref name="values"/> are true
+	/// </summary>
+	/// <param name="values">A <see cref="ListOf{T}"/> object with boolean values</param>
+	/// <returns>True if ALL values are true, otherwise false</returns>
+	public static bool AllTrue(ListOf<bool> values) => values.FoldR(LogicalAnd, true);
 }
