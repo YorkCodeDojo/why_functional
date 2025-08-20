@@ -19,10 +19,10 @@ public class ListOfExtensionsTests
 			expected += value;
 		}
 
-		var result = sut.Sum<int,int>();
+		var result = sut.Sum<int, int>();
 		result.Should().Be(expected);
 	}
-	
+
 	[TestMethod]
 	[DataRow(new int[] { 1 })]
 	[DataRow(new int[] { 10 })]
@@ -52,5 +52,38 @@ public class ListOfExtensionsTests
 		sut.Should().NotBeNull();
 		sut.ToArray.Length.Should().Be(values.Length);
 		sut.ToArray.Should().ContainInOrder(values);
+	}
+
+	[TestMethod]
+	[DataRow(new bool[] { }, false)]
+	[DataRow(new bool[] { false }, false)]
+	[DataRow(new bool[] { false, false, true }, true)]
+	[DataRow(new bool[] { false, true, false }, true)]
+	public void VerifyAnyTrueExtension(bool[] values, bool expected)
+	{
+		ListOf<bool> sut = values.BuildList();
+
+		sut.Should().NotBeNull();
+		sut.ToArray.Length.Should().Be(values.Length);
+		sut.ToArray.Should().ContainInOrder(values);
+		ListOfExtensions.AnyTrue(sut).Should().Be(expected);
+	}
+
+	[TestMethod]
+	[DataRow(new bool[] { }, true)]
+	[DataRow(new bool[] { false }, false)]
+	[DataRow(new bool[] { false, false, true }, false)]
+	[DataRow(new bool[] { false, true, false }, false)]
+	[DataRow(new bool[] { true }, true)]
+	[DataRow(new bool[] { true, true }, true)]
+	[DataRow(new bool[] { true, true, false }, false)]
+	public void VerifyAllTrueExtension(bool[] values, bool expected)
+	{
+		ListOf<bool> sut = values.BuildList();
+
+		sut.Should().NotBeNull();
+		sut.ToArray.Length.Should().Be(values.Length);
+		sut.ToArray.Should().ContainInOrder(values);
+		ListOfExtensions.AllTrue(sut).Should().Be(expected);
 	}
 }
