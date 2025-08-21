@@ -1,5 +1,3 @@
-using System.Numerics;
-
 namespace WhyFunctional;
 
 public class ListOf<T>
