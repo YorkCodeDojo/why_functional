@@ -165,4 +165,31 @@ public static class ListOfExtensions
 	/// <typeparam name="T"></typeparam>
 	/// <returns>The number of objects in the <paramref name="list"/></returns>
 	public static int Length<T>(this ListOf<T> list) where T : notnull => list.FoldR(Count, 0);
+
+	/// <summary>
+	/// Helper method to return the double of <paramref name="value"/>
+	/// </summary>
+	/// <param name="value">The value to be doubled</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>The equivalent of 2*<paramref name="value"/></returns>
+	private static T Double<T>(T value) where T : INumber<T> => value + value;
+
+	/// <summary>
+	/// Helper method to double the value of the current <see cref="ListOf{T}"/> object
+	/// </summary>
+	/// <param name="head">The value of the current <see cref="ListOf{T}.Head"/></param>
+	/// <param name="tail">The contents of the current <see cref="ListOf{T}.Tail"/></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>A new instance of <see cref="ListOf{T}"/>, with the <see cref="ListOf{T}.Head"/> value doubled</returns>
+	private static ListOf<T> Double<T>(T head, ListOf<T> tail) where T : INumber<T> =>
+		ListOf<T>.Cons(Double(head), tail);
+
+	/// <summary>
+	/// A method to double the values contained within <paramref name="list"/> and return a new object
+	/// </summary>
+	/// <param name="list">The object to bew iterated over</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>A new object with the contents of <paramref name="list"/>, with their respective <see cref="ListOf{T}.Head"/> values doubled</returns>
+	public static ListOf<T> DoubleAll<T>(this ListOf<T> list) where T : INumber<T> =>
+		list.FoldR(Double, ListOf<T>.Nil());
 }
