@@ -86,4 +86,44 @@ public class ListOfExtensionsTests
 		sut.ToArray.Should().ContainInOrder(values);
 		ListOfExtensions.AllTrue(sut).Should().Be(expected);
 	}
+
+	[TestMethod]
+	[DataRow(new int[] { })]
+	[DataRow(new int[] { 1 })]
+	[DataRow(new int[] { 10, 20, 30 })]
+	public void VerifyCopyExtension(int[] values)
+	{
+		ListOf<int> sut = values.BuildList();
+
+		ListOf<int> copy = sut.Copy();
+
+		sut.Should().NotBeNull();
+		copy.Should().NotBeNull();
+		copy.Should().NotBeSameAs(sut);
+		copy.ToArray.Length.Should().Be(sut.ToArray.Length);
+		copy.ToArray.Should().ContainInOrder(sut.ToArray);
+	}
+
+	[TestMethod]
+	[DataRow(new int[] { }, new int[] { })]
+	[DataRow(new int[] { 1 }, new int[] { 2 })]
+	[DataRow(new int[] { 1 }, new int[] { })]
+	[DataRow(new int[] { }, new int[] { 2 })]
+	[DataRow(new int[] { 1, 11 }, new int[] { 2, 22 })]
+	public void VerifyAppendExtension(int[] lhs, int[] rhs)
+	{
+		ListOf<int> first = lhs.BuildList();
+		ListOf<int> second = rhs.BuildList();
+
+		first.Should().NotBeNull();
+		second.Should().NotBeNull();
+
+		int[] expectedAppend = lhs.Concat(rhs).ToArray();
+
+		ListOf<int> sut = first.Append(second);
+
+		sut.Should().NotBeNull();
+		sut.ToArray.Length.Should().Be(expectedAppend.Length);
+		sut.ToArray.Should().ContainInOrder(expectedAppend);
+	}
 }

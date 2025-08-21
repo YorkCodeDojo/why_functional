@@ -101,7 +101,7 @@ public static class ListOfExtensions
 	/// <param name="b">The second value</param>
 	/// <returns>The logical OR product</returns>
 	private static bool LogicalOr(bool a, bool b) => a || b;
-	
+
 	/// <summary>
 	/// Provides a logical AND operation for two values
 	/// </summary>
@@ -123,4 +123,29 @@ public static class ListOfExtensions
 	/// <param name="values">A <see cref="ListOf{T}"/> object with boolean values</param>
 	/// <returns>True if ALL values are true, otherwise false</returns>
 	public static bool AllTrue(ListOf<bool> values) => values.FoldR(LogicalAnd, true);
+
+	/// <summary>
+	/// Copies the contents of <paramref name="list"/> into a new <see cref="ListOf{T}"/>
+	/// </summary>
+	/// <param name="list">The list to be copied</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>A copy of <paramref name="list"/></returns>
+	public static ListOf<T> Copy<T>(this ListOf<T> list)
+		where T : notnull
+	{
+		return list.FoldR(ListOf<T>.Cons, ListOf<T>.Nil());
+	}
+
+	/// <summary>
+	/// Appends the contents of <paramref name="second"/> to <paramref name="first"/>, returnin a new <see cref="ListOf{T}"/>
+	/// </summary>
+	/// <param name="first">The first part of the <see cref="ListOf{T}"/></param>
+	/// <param name="second">The second part of the <see cref="ListOf{T}"/></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>A new <see cref="ListOf{T}"/> object containing elements of both <paramref name="first"/> and <paramref name="second"/></returns>
+	public static ListOf<T> Append<T>(this ListOf<T> first, ListOf<T> second)
+		where T : notnull
+	{
+		return first.FoldR(ListOf<T>.Cons, second);
+	}
 }
