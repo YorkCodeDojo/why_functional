@@ -110,6 +110,7 @@ public class ListOfExtensionsTests
 	[DataRow(new int[] { 1 }, new int[] { })]
 	[DataRow(new int[] { }, new int[] { 2 })]
 	[DataRow(new int[] { 1, 11 }, new int[] { 2, 22 })]
+	[DataRow(new int[] { 1, 2 }, new int[] { 3, 4 })]
 	public void VerifyAppendExtension(int[] lhs, int[] rhs)
 	{
 		ListOf<int> first = lhs.BuildList();
@@ -125,5 +126,18 @@ public class ListOfExtensionsTests
 		sut.Should().NotBeNull();
 		sut.ToArray.Length.Should().Be(expectedAppend.Length);
 		sut.ToArray.Should().ContainInOrder(expectedAppend);
+	}
+
+	[TestMethod]
+	[DataRow(new int[] { }, 0)]
+	[DataRow(new int[] { 1 }, 1)]
+	[DataRow(new int[] { 1, 1 }, 2)]
+	[DataRow(new int[] { 1, 1, 1, 1 }, 4)]
+	public void VerifyLengthExtension(int[] values, int expectedLength)
+	{
+		ListOf<int> sut = values.BuildList();
+
+		sut.Should().NotBeNull();
+		sut.Length().Should().Be(expectedLength);
 	}
 }

@@ -137,7 +137,7 @@ public static class ListOfExtensions
 	}
 
 	/// <summary>
-	/// Appends the contents of <paramref name="second"/> to <paramref name="first"/>, returnin a new <see cref="ListOf{T}"/>
+	/// Appends the contents of <paramref name="second"/> to <paramref name="first"/>, returning a new <see cref="ListOf{T}"/>
 	/// </summary>
 	/// <param name="first">The first part of the <see cref="ListOf{T}"/></param>
 	/// <param name="second">The second part of the <see cref="ListOf{T}"/></param>
@@ -148,4 +148,21 @@ public static class ListOfExtensions
 	{
 		return first.FoldR(ListOf<T>.Cons, second);
 	}
+
+	/// <summary>
+	/// Helper method to increment a counter for the length of a <see cref="ListOf{T}"/>
+	/// </summary>
+	/// <param name="left">N/A</param>
+	/// <param name="right">The counter value</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>The incremented value of the counter</returns>
+	private static int Count<T>(T left, int right) => ++right;
+
+	/// <summary>
+	/// Determine the length of the <see cref="ListOf{T}"/>
+	/// </summary>
+	/// <param name="list">The object to be measured</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>The number of objects in the <paramref name="list"/></returns>
+	public static int Length<T>(this ListOf<T> list) where T : notnull => list.FoldR(Count, 0);
 }
