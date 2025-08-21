@@ -160,4 +160,42 @@ public class ListOfExtensionsTests
 		sut.ToArray.Length.Should().Be(expected.Length);
 		sut.ToArray.Should().ContainInOrder(expected);
 	}
+	[TestMethod]
+	[DataRow(new int[] { })]
+	[DataRow(new int[] { 1 })]
+	[DataRow(new int[] { 1, 2 })]
+	[DataRow(new int[] { 1, 2, 3 })]
+	[DataRow(new int[] { 4, 3, 2, 1 })]
+	public void VerifyDoubleAllExExtension(int[] values)
+	{
+		ListOf<int> initial = values.BuildList();
+		int[] expected = values.Select(v => 2 * v).ToArray();
+
+		initial.Should().NotBeNull();
+
+		ListOf<int> sut = initial.DoubleAllEx();
+		sut.Should().NotBeNull();
+		sut.Should().NotBeSameAs(initial);
+		sut.ToArray.Length.Should().Be(expected.Length);
+		sut.ToArray.Should().ContainInOrder(expected);
+	}
+	[TestMethod]
+	[DataRow(new int[] { })]
+	[DataRow(new int[] { 1 })]
+	[DataRow(new int[] { 1, 2 })]
+	[DataRow(new int[] { 1, 2, 3 })]
+	[DataRow(new int[] { 4, 3, 2, 1 })]
+	public void VerifyTripleAllExtension(int[] values)
+	{
+		ListOf<int> initial = values.BuildList();
+		int[] expected = values.Select(v => 3 * v).ToArray();
+
+		initial.Should().NotBeNull();
+
+		ListOf<int> sut = initial.TripleAll();
+		sut.Should().NotBeNull();
+		sut.Should().NotBeSameAs(initial);
+		sut.ToArray.Length.Should().Be(expected.Length);
+		sut.ToArray.Should().ContainInOrder(expected);
+	}
 }

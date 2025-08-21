@@ -192,4 +192,45 @@ public static class ListOfExtensions
 	/// <returns>A new object with the contents of <paramref name="list"/>, with their respective <see cref="ListOf{T}.Head"/> values doubled</returns>
 	public static ListOf<T> DoubleAll<T>(this ListOf<T> list) where T : INumber<T> =>
 		list.FoldR(Double, ListOf<T>.Nil());
+
+	/// <summary>
+	/// A method to map the function <paramref name="fn"/> over the contents of <paramref name="list"/>, returning a new object
+	/// </summary>
+	/// <param name="list">The <see cref="ListOf{T}"/> to be manipulated</param>
+	/// <param name="fn">The function to manipulate the individual values</param>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="TResult"></typeparam>
+	/// <returns>The new object with manipulated values</returns>
+	private static ListOf<TResult> Map<T, TResult>(this ListOf<T> list, Func<T, TResult> fn)
+		where T : notnull
+		where TResult : notnull
+	{
+		return list.FoldR((head, tail) => ListOf<TResult>.Cons(fn(head), tail), ListOf<TResult>.Nil());
+	}
+
+	/// <summary>
+	/// A refactored method to double the values contained within <paramref name="list"/> and return a new object, using the <see cref="Map{T,TResult}"/> method
+	/// </summary>
+	/// <param name="list">The object to bew iterated over</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>A new object with the contents of <paramref name="list"/>, with their respective <see cref="ListOf{T}.Head"/> values doubled</returns>
+	public static ListOf<T> DoubleAllEx<T>(this ListOf<T> list)
+		where T : INumber<T> => list.Map(Double);
+	
+	/// <summary>
+	/// Helper method to treble the input <paramref name="value"/>
+	/// </summary>
+	/// <param name="value">The value to be trebled</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>The equivalent of 3*<paramref name=""/></returns>
+	private static T Triple<T>(T value) where T: INumber<T> => value + Double(value);
+
+	/// <summary>
+	/// Method to treble all <see cref="ListOf{T}.Head"/> values within <paramref name="list"/>, returning a new object
+	/// </summary>
+	/// <param name="list">The values to be trebled</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>AQ new <see cref="ListOf{T}"/>, with <see cref="ListOf{T}.Head"/> values which are triple the original</returns>
+	public static ListOf<T> TripleAll<T>(this ListOf<T> list)
+		where T : INumber<T> => list.Map(Triple);
 }
